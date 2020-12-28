@@ -5,28 +5,34 @@ import {MatSort} from '@angular/material/sort';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 
-export interface GithubApi {
-  items: GithubIssue[];
-  total_count: number;
+export interface OfertasAPI {
+  data: Centro[];
 }
 
-export interface GithubIssue {
-  created_at: string;
-  number: string;
-  state: string;
-  title: string;
+export interface Centro {
+  codigo: string;
+  nombre: string;
+  direccion: string;
+  telefono: string;
+  localidad: string;
+  codigo_provincia: string;
+  familia: string;
+  codigo_ciclo: string;
+  nombre_ciclo: string;
+  tipo: string;
+  turno: string;
+  bilingue: string;
+  dual: string;
 }
 
 /** An example database that the data source uses to retrieve data for the table. */
 export class ExampleHttpDatabase {
   constructor(private _httpClient: HttpClient) {}
 
-  getRepoIssues(sort: string, order: string, page: number): Observable<GithubApi> {
-    const href = 'https://api.github.com/search/issues';
-    const requestUrl =
-        `${href}?q=repo:angular/components&sort=${sort}&order=${order}&page=${page + 1}`;
+  getRepoIssues(): Observable<OfertasAPI> {
+    const requestUrl = 'http://127.0.0.1:8088/json_ofertas';
 
-    return this._httpClient.get<GithubApi>(requestUrl);
+    return this._httpClient.get<OfertasAPI>(requestUrl);
   }
 }
 
@@ -39,11 +45,11 @@ export class ExampleHttpDatabase {
 
 export class OfertasComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['created', 'state', 'number', 'title'];
+  displayedColumns: string[] = ['codigo', 'nombre', 'direccion', 'telefono', 'localidad', 'codigo_provincia', 'familia', 
+  'codigo_ciclo', 'nombre_ciclo', 'tipo', 'turno', 'bilingue', 'dual'];
   exampleDatabase: ExampleHttpDatabase | null;
-  data: GithubIssue[] = [];
+  data: Centro[] = [];
 
-  resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
 
@@ -63,16 +69,14 @@ export class OfertasComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.exampleDatabase!.getRepoIssues(
-            this.sort.active, this.sort.direction, this.paginator.pageIndex);
+          return this.exampleDatabase!.getRepoIssues();
         }),
         map(data => {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           this.isRateLimitReached = false;
-          this.resultsLength = data.total_count;
 
-          return data.items;
+          return data.data;
         }),
         catchError(() => {
           this.isLoadingResults = false;
