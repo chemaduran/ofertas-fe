@@ -6,7 +6,19 @@ import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 
 export interface OfertasAPI {
-  data: Centro[];
+  info_centros: Centro[];
+  items: Ciclos[];
+}
+
+export interface Ciclos {
+  codigo : string;
+  familia : string;
+  codigo_ciclo : string;
+  nombre_ciclo : string;
+  tipo : string;
+  turno : string;
+  bilingue : string;
+  dual : string;
 }
 
 export interface Centro {
@@ -30,7 +42,7 @@ export class ExampleHttpDatabase {
   constructor(private _httpClient: HttpClient) {}
 
   getRepoIssues(): Observable<OfertasAPI> {
-    const requestUrl = 'http://127.0.0.1:8088/json_ofertas';
+    const requestUrl = 'http://127.0.0.1:8088/ofertas';
 
     return this._httpClient.get<OfertasAPI>(requestUrl);
   }
@@ -48,7 +60,7 @@ export class OfertasComponent implements AfterViewInit {
   displayedColumns: string[] = ['codigo', 'nombre', 'direccion', 'telefono', 'localidad', 'codigo_provincia', 'familia', 
   'codigo_ciclo', 'nombre_ciclo', 'tipo', 'turno', 'bilingue', 'dual'];
   exampleDatabase: ExampleHttpDatabase | null;
-  data: Centro[] = [];
+  data: Ciclos[] = [];
 
   isLoadingResults = true;
   isRateLimitReached = false;
@@ -76,7 +88,7 @@ export class OfertasComponent implements AfterViewInit {
           this.isLoadingResults = false;
           this.isRateLimitReached = false;
 
-          return data.data;
+          return data.items;
         }),
         catchError(() => {
           this.isLoadingResults = false;
