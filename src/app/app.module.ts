@@ -4,17 +4,21 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { OfertasComponent } from './ofertas/ofertas.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTableModule } from '@angular/material/table'  
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { MatPaginatorModule } from '@angular/material/paginator'
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSortModule } from '@angular/material/sort';
+import { OfertasBeService } from './ofertas-be.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    OfertasComponent
-  ],
+  declarations: [AppComponent, OfertasComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -22,9 +26,15 @@ import { MatSortModule } from '@angular/material/sort';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     MatSortModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
     HttpClientModule,
+    MatIconModule,
+    MatCheckboxModule,
+    FormsModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [OfertasBeService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
