@@ -26,11 +26,16 @@ export class OfertasComponent implements AfterViewInit {
   f_nombre_ciclo = '';
   f_codigo_ciclo = '';
   ngAfterViewInit() {
-    this._ofertasBe.get_ofertas().subscribe((data) => (this.data = data.items));
+    //this._ofertasBe.get_ofertas().subscribe((data) => (this.data = data.items));
     console.log('ngAfterViewInit');
   }
 
-  send_rq() {
-    console.log(this.f_familia_ciclo);
+  send_rq(e) {
+    if (e.length >= 3) {
+      console.log(e);
+      this._ofertasBe
+        .get_ofertas_query(e)
+        .subscribe((data) => (this.data = data.items));
+    }
   }
 }

@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 
 export interface OfertasAPI {
   info_centros: Centro[];
@@ -37,6 +41,22 @@ export class OfertasBeService {
     const requestUrl = 'http://127.0.0.1:8088/ofertas';
 
     return this._httpClient.get<OfertasAPI>(requestUrl).pipe(
+      catchError(() => {
+        console.log('error');
+        return Observable;
+      })
+    );
+  }
+
+  get_ofertas_query(term: string): Observable<OfertasAPI> {
+    const requestUrl = 'http://127.0.0.1:8088/tq';
+    term = term.trim();
+
+    const options = term
+      ? { params: new HttpParams().set('familia', term) }
+      : {};
+
+    return this._httpClient.get<OfertasAPI>(requestUrl, options).pipe(
       catchError(() => {
         console.log('error');
         return Observable;
