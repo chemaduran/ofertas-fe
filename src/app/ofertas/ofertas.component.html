@@ -1,12 +1,12 @@
-<div class="example-container">
-  <div>
-    <mat-form-field class="example-form-field">
+<div class="form-busqueda-container">
+  <div class="form-busqueda">
+    <mat-form-field class="form-field">
       <mat-label>Familia</mat-label>
       <input
         matInput
         type="text"
         [(ngModel)]="f_familia_ciclo"
-        (keyup)="send_rq(f_familia_ciclo)"
+        (keyup)="send_rq()"
       />
       <button
         mat-button
@@ -14,88 +14,98 @@
         matSuffix
         mat-icon-button
         aria-label="Limpiar"
-        (click)="f_familia_ciclo = ''"
+        (click)="f_familia_ciclo = ''; send_rq()"
       >
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
   </div>
-  <div>
-    <mat-form-field class="example-form-field">
+  <div class="form-busqueda">
+    <mat-form-field class="form-field">
       <mat-label>Código del ciclo</mat-label>
-      <input matInput type="text" [(ngModel)]="f_codigo_ciclo" />
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="f_codigo_ciclo"
+        (keyup)="send_rq()"
+      />
       <button
         mat-button
         *ngIf="f_codigo_ciclo"
         matSuffix
         mat-icon-button
         aria-label="Limpiar"
-        (click)="f_codigo_ciclo = ''"
+        (click)="f_codigo_ciclo = ''; send_rq()"
       >
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
   </div>
-  <div>
-    <mat-form-field class="example-form-field">
+  <div class="form-busqueda">
+    <mat-form-field class="form-field">
       <mat-label>Nombre del ciclo</mat-label>
-      <input matInput type="text" [(ngModel)]="f_nombre_ciclo" />
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="f_nombre_ciclo"
+        (keyup)="send_rq()"
+      />
       <button
         mat-button
         *ngIf="f_nombre_ciclo"
         matSuffix
         mat-icon-button
         aria-label="Limpiar"
-        (click)="f_nombre_ciclo = ''"
+        (click)="f_nombre_ciclo = ''; send_rq()"
       >
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
   </div>
 
-  <div>
+  <div class="form-busqueda">
     <mat-form-field appearance="fill">
       <mat-label>Tipo</mat-label>
       <mat-select>
-        <mat-option value="option">Público</mat-option>
-        <mat-option value="option">Privado</mat-option>
+        <mat-option value="tipo_cualquiera">Cualquiera</mat-option>
+        <mat-option value="tipo_publico">Público</mat-option>
+        <mat-option value="tipo_privado">Privado</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
 
-  <div>
+  <div class="form-busqueda">
     <mat-form-field appearance="fill">
       <mat-label>Turno</mat-label>
       <mat-select>
-        <mat-option value="option">Mañana</mat-option>
-        <mat-option value="option">Tarde</mat-option>
+        <mat-option value="turno_cualquiera">Cualquiera</mat-option>
+        <mat-option value="turno_manana">Mañana</mat-option>
+        <mat-option value="turno_tarde">Tarde</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
 
-  <div>
-    <mat-checkbox class="example-margin"> Bilingüe </mat-checkbox>
-  </div>
-  <div>
-    <mat-checkbox class="example-margin"> Dual </mat-checkbox>
+  <div class="form-busqueda">
+    <mat-slide-toggle class="f-margin"> Bilingüe </mat-slide-toggle>
+    <mat-slide-toggle class="f-margin"> Dual </mat-slide-toggle>
   </div>
 </div>
 
 <h1>Listado de ofertas FP Andalucía</h1>
 
-<div class="example-container mat-elevation-z8">
-  <div class="example-loading-shade" *ngIf="isRateLimitReached">
+<div class="general-container mat-elevation-z8">
+  <div class="loading-shade" *ngIf="isRateLimitReached">
     <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-    <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+    <div class="rate-limit-reached" *ngIf="isRateLimitReached">
       GitHub's API rate limit has been reached. It will be reset in one minute.
     </div>
   </div>
 
-  <div class="example-table-container">
+  <div class="table-container">
     <table
       mat-table
       [dataSource]="data"
-      class="example-table"
+      class="data-table"
       matSort
       matSortActive="codigo"
       matSortDisableClear
@@ -153,6 +163,4 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </div>
-
-  <mat-paginator [pageSize]="30"></mat-paginator>
 </div>

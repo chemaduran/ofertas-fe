@@ -48,12 +48,26 @@ export class OfertasBeService {
     );
   }
 
-  get_ofertas_query(term: string): Observable<OfertasAPI> {
+  get_ofertas_query(
+    familia: string,
+    codigo_ciclo: string,
+    nombre_ciclo: string
+  ): Observable<OfertasAPI> {
     const requestUrl = 'http://127.0.0.1:8088/tq';
-    term = term.trim();
+    familia = familia.trim();
+    codigo_ciclo = codigo_ciclo.trim();
+    nombre_ciclo = nombre_ciclo.trim();
 
-    const options = term
-      ? { params: new HttpParams().set('familia', term) }
+    let options = {
+      params: new HttpParams(),
+    };
+
+    familia ? (options.params = options.params.set('familia', familia)) : {};
+    codigo_ciclo
+      ? (options.params = options.params.set('codigo_ciclo', codigo_ciclo))
+      : {};
+    nombre_ciclo
+      ? (options.params = options.params.set('nombre_ciclo', nombre_ciclo))
       : {};
 
     return this._httpClient.get<OfertasAPI>(requestUrl, options).pipe(
